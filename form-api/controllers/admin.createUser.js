@@ -40,7 +40,7 @@ exports.createUser = async (req, res) => {
       user: userResponse,
     });
   } catch (error) {
-    console.error("Create user error:", error);
+    // console.error("Create user error:", error);
     res.status(500).json({ message: "Internal server error" });
   }
 };

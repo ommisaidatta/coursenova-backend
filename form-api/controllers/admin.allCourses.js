@@ -9,7 +9,7 @@ exports.getAllCourses = async (req, res) => {
       courses,
     });
   } catch (error) {
-    console.error("Get all courses error:", error);
+    // console.error("Get all courses error:", error);
     res.status(500).json({
       message: "Internal server error",
     });

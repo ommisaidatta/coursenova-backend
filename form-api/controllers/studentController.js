@@ -9,7 +9,7 @@ const JWT_SECRET =
 
 const registerStudent = async (req, res) => {
   try {
-    console.log("Full Details:", req.body);
+    // console.log("Full Details:", req.body);
     const { firstname, lastname, email, password, phone, address, gender } =
       req.body;
 
@@ -43,17 +43,16 @@ const registerStudent = async (req, res) => {
       gender,
     });
 
-    console.log("Saving to MongoDB...");
+    // console.log("Saving to MongoDB...");
     const savedStudent = await student.save();
-    console.log("SAVED! ID:", savedStudent._id);
+    // console.log("SAVED! ID:", savedStudent._id);
 
     return res.status(201).json({
       message: "Student registered successfully",
       id: savedStudent._id,
     });
   } catch (error) {
-    console.error("REGISTER ERROR:", error.message);
-    console.error("FULL ERROR:", error);
+    // console.error(error);
     return res.status(500).json({ message: "Server error" });
   }
 };
@@ -111,7 +110,7 @@ const loginStudent = async (req, res) => {
       role: userRole,
     });
   } catch (error) {
-    console.error("Login error:", error);
+    // console.error("Login error:", error);
     res.status(500).json({ message: "Server error", error: error.message });
   }
 };

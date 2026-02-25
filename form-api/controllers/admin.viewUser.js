@@ -9,7 +9,7 @@ exports.viewAllUsers = async (req, res) => {
       users: users,
     });
   } catch (error) {
-    console.error("Get all users error:", error);
+    // console.error("Get all users error:", error);
     res.status(500).json({
       message: "Internal server error",
     });

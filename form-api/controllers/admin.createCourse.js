@@ -30,7 +30,7 @@ exports.createCourse = async (req, res) => {
       course,
     });
   } catch (error) {
-    console.error("Create course error:", error);
+    // console.error("Create course error:", error);
     res.status(500).json({
       message: "Internal server error",
     });

@@ -85,7 +85,7 @@ exports.completeLesson = async (req, res) => {
       progressPercentage,
     });
   } catch (error) {
-    console.error("Progress Error:", error);
+    // console.error("Progress Error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };

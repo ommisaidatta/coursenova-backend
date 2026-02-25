@@ -48,7 +48,7 @@ const generateCertificate = async (req, res) => {
 
     res.status(201).json(certificate);
   } catch (error) {
-    console.error(error);
+    // console.error(error);
     res.status(500).json({ message: "Certificate generation failed" });
   }
 };
@@ -105,7 +105,7 @@ const downloadCertificate = async (req, res) => {
 
     res.download(filePath, path.basename(filePath));
   } catch (error) {
-    console.error("Certificate download error:", error);
+    // console.error("Certificate download error:", error);
     res.status(500).json({ message: "Server error" });
   }
 };

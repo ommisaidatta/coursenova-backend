@@ -24,7 +24,7 @@ exports.createLesson = async (req, res) => {
       lesson,
     });
   } catch (error) {
-    console.error("Create lesson error:", error);
+    // console.error("Create lesson error:", error);
     res.status(500).json({ message: "Failed to create lesson" });
   }
 };
@@ -37,7 +37,7 @@ exports.getLessonsByCourse = async (req, res) => {
 
     res.status(200).json(lessons);
   } catch (error) {
-    console.error("Get lessons error:", error);
+    // console.error("Get lessons error:", error);
     res.status(500).json({ message: "Failed to fetch lessons" });
   }
 };
@@ -52,7 +52,7 @@ exports.getLessonById = async (req, res) => {
 
     res.status(200).json(lesson);
   } catch (error) {
-    console.error("Get lesson error:", error);
+    // console.error("Get lesson error:", error);
     res.status(500).json({ message: "Failed to fetch lesson" });
   }
 };
@@ -77,7 +77,7 @@ exports.updateLesson = async (req, res) => {
       lesson,
     });
   } catch (error) {
-    console.error("Update lesson error:", error);
+    // console.error("Update lesson error:", error);
     res.status(500).json({ message: "Failed to update lesson" });
   }
 };
@@ -94,7 +94,7 @@ exports.deleteLesson = async (req, res) => {
       message: "Lesson deleted successfully",
     });
   } catch (error) {
-    console.error("Delete lesson error:", error);
+    // console.error("Delete lesson error:", error);
     res.status(500).json({ message: "Failed to delete lesson" });
   }
 };

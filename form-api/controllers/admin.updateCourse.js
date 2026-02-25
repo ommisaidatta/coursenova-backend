@@ -29,7 +29,7 @@ exports.updateCourse = async (req, res) => {
       course: updateCourse,
     });
   } catch (error) {
-    console.error("Update course error:", error);
+    // console.error("Update course error:", error);
     res.status(500).json({
       message: "Internal server error",
     });

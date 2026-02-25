@@ -21,7 +21,7 @@ exports.addOrUpdateReview = async (req, res) => {
       });
     }
 
-    console.log("Enrollment progress:", enrollment?.progress);
+    // console.log("Enrollment progress:", enrollment?.progress);
     const totalLessons = await Lesson.countDocuments({ course: courseId });
     const courseProgress = await CourseProgress.findOne({ userId, courseId });
     const completedCount = courseProgress
@@ -36,12 +36,12 @@ exports.addOrUpdateReview = async (req, res) => {
         message: "Complete course before rating",
       });
     }
-    console.log("Total lessons:", totalLessons);
-    console.log("Course progress doc:", courseProgress);
-    console.log(
-      "Completed lessons count:",
-      courseProgress?.completedLessons?.length,
-    );
+    // console.log("Total lessons:", totalLessons);
+    // console.log("Course progress doc:", courseProgress);
+    // console.log(
+    //   "Completed lessons count:",
+    //   courseProgress?.completedLessons?.length,
+    // );
 
     // Check Existing Rating
     let existingRating = await Rating.findOne({
@@ -81,7 +81,7 @@ exports.addOrUpdateReview = async (req, res) => {
       message: "Rating saved successfully",
     });
   } catch (error) {
-    console.error("Rating error:", error);
+    // console.error("Rating error:", error);
     res.status(500).json({ message: "Rating failed" });
   }
 };
@@ -106,7 +106,7 @@ exports.getCourseReviews = async (req, res) => {
       reviews,
     });
   } catch (error) {
-    console.error("Get reviews error:", error);
+    // console.error("Get reviews error:", error);
     res.status(500).json({ message: "Failed to fetch reviews" });
   }
 };
@@ -121,7 +121,7 @@ exports.getMyRatings = async (req, res) => {
 
     return res.json(ratings);
   } catch (error) {
-    console.error("Get my ratings error:", error);
+    // console.error("Get my ratings error:", error);
     res.status(500).json({ message: "Failed to fetch my ratings" });
   }
 };
