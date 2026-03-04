@@ -1,9 +1,11 @@
 {
   "name": "form-api",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
-    "test": "jest --coverage"
+    "test": "jest --coverage",
+    "dev": "nodemon server.js",
+    "start": "node server.js"
   },
   "keywords": [],
   "author": "",
@@ -25,7 +27,7 @@
   "devDependencies": {
     "jest": "^30.2.0",
     "mongodb-memory-server": "^11.0.1",
-    "nodemon": "^3.1.11",
+    "nodemon": "^3.1.14",
     "supertest": "^7.2.2"
   }
 }

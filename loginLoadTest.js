@@ -1,17 +1,36 @@
 import http from "k6/http";
-import { check, group } from "k6";
+import { check, group, sleep } from "k6";
 
-export let options = {
-  vus: 50,
-  duration: "1m",
+const BASE_URL = "http://localhost:5000";
+const COURSE_ID = "696f08a035185b69600db6da";
+
+export const options = {
+  scenarios: {
+    gradual_load: {
+      executor: "ramping-vus",
+      startVUs: 0,
+      stages: [
+        { duration: "25s", target: 100 },
+        { duration: "25s", target: 300 },
+        { duration: "25s", target: 500 },
+        { duration: "25s", target: 800 },
+        { duration: "25s", target: 1000 },
+        { duration: "25s", target: 1200 },
+        { duration: "25s", target: 0 },
+      ],
+      gracefulRampDown: "25s",
+    },
+  },
+
   thresholds: {
-    http_req_duration: ["p(95)<2000"],
+    http_req_duration: ["p(95)<3000"],
+    http_req_failed: ["rate<0.05"],
   },
 };
 
 export function setup() {
-  let loginRes = http.post(
-    "http://localhost:5000/api/students/login",
+  const loginRes = http.post(
+    `${BASE_URL}/api/students/login`,
     JSON.stringify({
       email: "teja04606@gmail.com",
       password: "Teja@123",
@@ -22,7 +41,7 @@ export function setup() {
   );
 
   check(loginRes, {
-    "login successful": (r) => r.status === 200,
+    "Login successful": (r) => r.status === 200,
   });
 
   const token = loginRes.json("accessToken");
@@ -31,39 +50,46 @@ export function setup() {
     throw new Error("Login failed. No token received.");
   }
 
-  return { token }; // shared with VUs
+  return { token };
 }
+
 export default function (data) {
   const authHeaders = {
     headers: {
       Authorization: `Bearer ${data.token}`,
     },
   };
-  // 🔥 IMPORTANT: Use real courseId from your DB
-  let courseId = "696f08a035185b69600db6da";
 
-  group("Dashboard APIs", function () {
-    let profile = http.get("http://localhost:5000/api/profile", authHeaders);
-    check(profile, { "profile status 200": (r) => r.status === 200 });
+  group("Dashboard APIs", () => {
+    let profile = http.get(`${BASE_URL}/api/profile`, authHeaders);
+    check(profile, { "Profile status 200": (r) => r.status === 200 });
 
-    let enrollments = http.get(
-      "http://localhost:5000/api/enroll/my",
-      authHeaders,
-    );
-    check(enrollments, { "enrollments status 200": (r) => r.status === 200 });
+    sleep(0.5);
+
+    let enrollments = http.get(`${BASE_URL}/api/enroll/my`, authHeaders);
+    check(enrollments, { "Enrollments status 200": (r) => r.status === 200 });
+
+    sleep(0.5);
 
     let progress = http.get(
-      `http://localhost:5000/api/progress/${courseId}`,
+      `${BASE_URL}/api/progress/${COURSE_ID}`,
       authHeaders,
     );
-    check(progress, { "progress status 200": (r) => r.status === 200 });
+    check(progress, { "Progress status 200": (r) => r.status === 200 });
+
+    sleep(0.5);
 
     let lessons = http.get(
-      `http://localhost:5000/api/lesson/course/${courseId}`,
+      `${BASE_URL}/api/lesson/course/${COURSE_ID}`,
+      authHeaders,
     );
-    check(lessons, { "lessons status 200": (r) => r.status === 200 });
+    check(lessons, { "Lessons status 200": (r) => r.status === 200 });
 
-    let ratings = http.get("http://localhost:5000/api/rating/my", authHeaders);
-    check(ratings, { "ratings status 200": (r) => r.status === 200 });
+    sleep(0.5);
+
+    let ratings = http.get(`${BASE_URL}/api/rating/my`, authHeaders);
+    check(ratings, { "Ratings status 200": (r) => r.status === 200 });
   });
+
+  sleep(1);
 }
